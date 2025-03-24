@@ -3,41 +3,106 @@
 <head>
   <title>Nepal Salary Tax Calculator</title>
   <style>
-    body { font-family: Arial; margin: 40px; }
-    label { display: block; margin: 10px 0 5px; }
-    input[type="number"], select { padding: 5px; width: 200px; }
-    button { margin-top: 20px; padding: 10px 20px; }
-    .result { margin-top: 30px; font-weight: bold; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1e293b;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 6px;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    input[type="number"], select {
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #f8fafc;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #0ea5e9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0284c7;
+    }
+
+    .result {
+      background: #f0fdf4;
+      padding: 15px;
+      margin-top: 25px;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      color: #065f46;
+      font-size: 16px;
+    }
+
+    .result strong {
+      color: #047857;
+    }
   </style>
 </head>
 <body>
 
-<h2>Nepal Salary Tax Calculator</h2>
+<div class="container">
+  <h2>🇳🇵 Nepal Salary Tax Calculator</h2>
 
-<label>Monthly Salary:</label>
-<input type="number" id="salary" placeholder="Enter salary" />
+  <label>Monthly Salary (NPR)</label>
+  <input type="number" id="salary" placeholder="e.g. 80000" />
 
-<label>No. of Months:</label>
-<input type="number" id="months" value="12" />
+  <label>No. of Months</label>
+  <input type="number" id="months" value="12" />
 
-<label>Bonus:</label>
-<input type="number" id="bonus" value="0" />
+  <label>Bonus (Annual)</label>
+  <input type="number" id="bonus" value="0" />
 
-<label>Married?</label>
-<select id="married">
-  <option value="unmarried">Unmarried</option>
-  <option value="married">Married</option>
-</select>
+  <label>Married Status</label>
+  <select id="married">
+    <option value="unmarried">Unmarried</option>
+    <option value="married">Married</option>
+  </select>
 
-<label>Citizens Investment Trust (CIT):</label>
-<input type="number" id="cit" value="0" />
+  <label>Insurance Premium (Annual NPR)</label>
+  <input type="number" id="insurance" value="0" />
 
-<label>Insurance:</label>
-<input type="number" id="insurance" value="0" />
+  <button onclick="calculateTax()">🧾 Calculate Tax</button>
 
-<button onclick="calculateTax()">Calculate Tax</button>
-
-<div class="result" id="output"></div>
+  <div class="result" id="output"></div>
+</div>
 
 <script>
 function calculateTax() {
@@ -45,10 +110,12 @@ function calculateTax() {
   let months = parseFloat(document.getElementById("months").value);
   let bonus = parseFloat(document.getElementById("bonus").value);
   let married = document.getElementById("married").value;
-  let cit = parseFloat(document.getElementById("cit").value);
   let insurance = parseFloat(document.getElementById("insurance").value);
 
-  let annualIncome = (salary * months) + bonus;
+  let annualSalary = salary * months;
+  let annualIncome = annualSalary + bonus;
+
+  let cit = salary * 0.07 * months;
   let deductions = cit + insurance;
   let taxable = annualIncome - deductions;
 
@@ -68,14 +135,22 @@ function calculateTax() {
   }
 
   let monthlyTax = tax / months;
+  let monthlyCIT = salary * 0.07;
+  let monthlyReceive = salary - monthlyTax - monthlyCIT;
 
   document.getElementById("output").innerHTML =
-    `Total Annual Income: NPR ${annualIncome.toFixed(2)}<br>
-     Deductions: NPR ${deductions.toFixed(2)}<br>
-     Taxable Income: NPR ${taxable.toFixed(2)}<br>
-     <br>
-     🧾 Annual Tax: NPR ${tax.toFixed(2)}<br>
-     💸 Monthly Tax: NPR ${monthlyTax.toFixed(2)}`;
+    `<div>
+      <strong>Total Annual Income:</strong> NPR ${annualIncome.toFixed(2)}<br>
+      <strong>Annual CIT (7%):</strong> NPR ${cit.toFixed(2)}<br>
+      <strong>Insurance:</strong> NPR ${insurance.toFixed(2)}<br>
+      <strong>Total Deductions:</strong> NPR ${deductions.toFixed(2)}<br>
+      <strong>Taxable Income:</strong> NPR ${taxable.toFixed(2)}
+    </div>
+    <br>
+    <div>📄 <strong>Annual Tax:</strong> NPR ${tax.toFixed(2)}<br>
+    💸 <strong>Monthly Tax:</strong> NPR ${monthlyTax.toFixed(2)}<br>
+    📤 <strong>Monthly CIT:</strong> NPR ${monthlyCIT.toFixed(2)}<br>
+    💰 <strong>You will receive (approx.):</strong> NPR ${monthlyReceive.toFixed(2)}</div>`;
 }
 </script>
 
