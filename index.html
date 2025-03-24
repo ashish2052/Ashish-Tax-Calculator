@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nepal Salary Tax Calculator</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    label { display: block; margin: 10px 0 5px; }
+    input[type="number"], select { padding: 5px; width: 200px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+    .result { margin-top: 30px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>Nepal Salary Tax Calculator</h2>
+
+<label>Monthly Salary:</label>
+<input type="number" id="salary" placeholder="Enter salary" />
+
+<label>No. of Months:</label>
+<input type="number" id="months" value="12" />
+
+<label>Bonus:</label>
+<input type="number" id="bonus" value="0" />
+
+<label>Married?</label>
+<select id="married">
+  <option value="unmarried">Unmarried</option>
+  <option value="married">Married</option>
+</select>
+
+<label>Citizens Investment Trust (CIT):</label>
+<input type="number" id="cit" value="0" />
+
+<label>Insurance:</label>
+<input type="number" id="insurance" value="0" />
+
+<button onclick="calculateTax()">Calculate Tax</button>
+
+<div class="result" id="output"></div>
+
+<script>
+function calculateTax() {
+  let salary = parseFloat(document.getElementById("salary").value);
+  let months = parseFloat(document.getElementById("months").value);
+  let bonus = parseFloat(document.getElementById("bonus").value);
+  let married = document.getElementById("married").value;
+  let cit = parseFloat(document.getElementById("cit").value);
+  let insurance = parseFloat(document.getElementById("insurance").value);
+
+  let annualIncome = (salary * months) + bonus;
+  let deductions = cit + insurance;
+  let taxable = annualIncome - deductions;
+
+  let slab1 = married === 'married' ? 600000 : 500000;
+  let slab2 = slab1 + 200000;
+  let slab3 = 2000000;
+  let tax = 0;
+
+  if (taxable <= slab1) {
+    tax = taxable * 0.01;
+  } else if (taxable <= slab2) {
+    tax = (slab1 * 0.01) + ((taxable - slab1) * 0.1);
+  } else if (taxable <= slab3) {
+    tax = (slab1 * 0.01) + (200000 * 0.1) + ((taxable - slab2) * 0.2);
+  } else {
+    tax = (slab1 * 0.01) + (200000 * 0.1) + (slab3 - slab2) * 0.2 + ((taxable - slab3) * 0.3);
+  }
+
+  let monthlyTax = tax / months;
+
+  document.getElementById("output").innerHTML =
+    `Total Annual Income: NPR ${annualIncome.toFixed(2)}<br>
+     Deductions: NPR ${deductions.toFixed(2)}<br>
+     Taxable Income: NPR ${taxable.toFixed(2)}<br>
+     <br>
+     🧾 Annual Tax: NPR ${tax.toFixed(2)}<br>
+     💸 Monthly Tax: NPR ${monthlyTax.toFixed(2)}`;
+}
+</script>
+
+</body>
+</html>
