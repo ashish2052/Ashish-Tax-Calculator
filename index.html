@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ashish Salary Tax Calculator</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f1f5f9;
       margin: 0;
       padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -16,62 +18,75 @@
 
     .container {
       background: #ffffff;
-      padding: 30px;
-      max-width: 500px;
+      padding: 35px 30px;
+      max-width: 480px;
       width: 90%;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 25px;
-      color: #1e293b;
+      color: #0f172a;
+      margin-bottom: 30px;
+      font-size: 24px;
     }
 
     label {
       display: block;
-      margin: 10px 0 6px;
-      color: #334155;
-      font-weight: 500;
+      margin: 14px 0 6px;
+      color: #475569;
+      font-weight: 600;
+      font-size: 15px;
     }
 
     input[type="number"], select {
-      padding: 10px;
       width: 100%;
+      padding: 12px 14px;
+      font-size: 15px;
+      background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 16px;
-      background-color: #f8fafc;
+      border-radius: 10px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input[type="number"]:focus, select:focus {
+      border-color: #38bdf8;
+      background: #fff;
     }
 
     button {
-      margin-top: 20px;
+      margin-top: 25px;
       width: 100%;
-      padding: 12px;
-      background: #0ea5e9;
-      color: white;
-      border: none;
-      border-radius: 8px;
+      padding: 14px;
       font-size: 16px;
+      background-color: #0ea5e9;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
       cursor: pointer;
+      transition: background 0.3s;
     }
 
     button:hover {
-      background: #0284c7;
+      background-color: #0284c7;
     }
 
     .result {
       background: #f0fdf4;
-      padding: 15px;
-      margin-top: 25px;
-      border: 1px solid #bbf7d0;
-      border-radius: 8px;
+      padding: 18px;
+      margin-top: 30px;
+      border-left: 5px solid #22c55e;
+      border-radius: 12px;
       color: #065f46;
-      font-size: 16px;
+      line-height: 1.6;
     }
 
     .result strong {
+      display: inline-block;
+      width: 160px;
       color: #047857;
     }
   </style>
@@ -79,7 +94,7 @@
 <body>
 
 <div class="container">
-  <h2>Ashish Salary Tax Calculator</h2>
+  <h2>💼 Ashish Salary Tax Calculator</h2>
 
   <label>Monthly Salary (NPR)</label>
   <input type="number" id="salary" placeholder="e.g. 80000" />
@@ -140,17 +155,17 @@ function calculateTax() {
 
   document.getElementById("output").innerHTML =
     `<div>
-      <strong>Total Annual Income:</strong> NPR ${annualIncome.toFixed(2)}<br>
+      <strong>Total Income:</strong> NPR ${annualIncome.toFixed(2)}<br>
       <strong>Annual CIT (7%):</strong> NPR ${cit.toFixed(2)}<br>
       <strong>Insurance:</strong> NPR ${insurance.toFixed(2)}<br>
-      <strong>Total Deductions:</strong> NPR ${deductions.toFixed(2)}<br>
-      <strong>Taxable Income:</strong> NPR ${taxable.toFixed(2)}
-    </div>
-    <br>
-    <div>📄 <strong>Annual Tax:</strong> NPR ${tax.toFixed(2)}<br>
-    💸 <strong>Monthly Tax:</strong> NPR ${monthlyTax.toFixed(2)}<br>
-    📤 <strong>Monthly CIT:</strong> NPR ${monthlyCIT.toFixed(2)}<br>
-    💰 <strong>You will receive (approx.):</strong> NPR ${monthlyReceive.toFixed(2)}</div>`;
+      <strong>Deductions:</strong> NPR ${deductions.toFixed(2)}<br>
+      <strong>Taxable Income:</strong> NPR ${taxable.toFixed(2)}<br>
+      <br>
+      <strong>Annual Tax:</strong> NPR ${tax.toFixed(2)}<br>
+      <strong>Monthly Tax:</strong> NPR ${monthlyTax.toFixed(2)}<br>
+      <strong>Monthly CIT:</strong> NPR ${monthlyCIT.toFixed(2)}<br>
+      <strong>Net Monthly Salary:</strong> NPR ${monthlyReceive.toFixed(2)}
+    </div>`;
 }
 </script>
 
